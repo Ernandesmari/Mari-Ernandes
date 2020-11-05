@@ -1,0 +1,1745 @@
+
+    
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    \usepackage[breakable]{tcolorbox}
+    \tcbset{nobeforeafter} % prevents tcolorboxes being placing in paragraphs
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{a9bf9961-b792-4376-b522-c0aed1b67d60}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \newcommand{\prompt}[4]{
+        \llap{{\color{#2}[#3]: #4}}\vspace{-1.25em}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    Комментарий наставника
+
+Привет! Поздравляю тебя с первым твоим проектом и спасибо, что сдала
+задание:) Ты проделала большую работу. Далее в файле мои комментарии ты
+сможешь найти в ячейках, аналогичных данфной ( если рамки комментария
+зелёные - всё сделано правильно; жёлтые - есть замечания, но не
+критично; красные - нужно переделать). Не удаляй эти комментарии и
+постарайся учесть их в ходе выполнения проекта.
+
+    \hypertarget{ux438ux441ux441ux43bux435ux434ux43eux432ux430ux43dux438ux435-ux43dux430ux434ux451ux436ux43dux43eux441ux442ux438-ux437ux430ux451ux43cux449ux438ux43aux43eux432}{%
+\section{Исследование надёжности
+заёмщиков}\label{ux438ux441ux441ux43bux435ux434ux43eux432ux430ux43dux438ux435-ux43dux430ux434ux451ux436ux43dux43eux441ux442ux438-ux437ux430ux451ux43cux449ux438ux43aux43eux432}}
+
+Заказчик --- кредитный отдел банка. Нужно разобраться, влияет ли
+семейное положение и количество детей клиента на факт погашения кредита
+в срок. Входные данные от банка --- статистика о платёжеспособности
+клиентов.
+
+Результаты исследования будут учтены при построении модели
+\textbf{кредитного скоринга} --- специальной системы, которая оценивает
+способность потенциального заёмщика вернуть кредит банку.
+
+    \hypertarget{ux448ux430ux433-1.-ux43eux442ux43aux440ux43eux439ux442ux435-ux444ux430ux439ux43b-ux441-ux434ux430ux43dux43dux44bux43cux438-ux438-ux438ux437ux443ux447ux438ux442ux435-ux43eux431ux449ux443ux44e-ux438ux43dux444ux43eux440ux43cux430ux446ux438ux44e.}{%
+\subsubsection{Шаг 1. Откройте файл с данными и изучите общую
+информацию.}\label{ux448ux430ux433-1.-ux43eux442ux43aux440ux43eux439ux442ux435-ux444ux430ux439ux43b-ux441-ux434ux430ux43dux43dux44bux43cux438-ux438-ux438ux437ux443ux447ux438ux442ux435-ux43eux431ux449ux443ux44e-ux438ux43dux444ux43eux440ux43cux430ux446ux438ux44e.}}
+
+    Изучим общую информацию с данными:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{n}{data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/datasets/data.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}посмотрим первые 10 строчек таблицы}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   children  days\_employed  dob\_years education  education\_id  \textbackslash{}
+0         1   -8437.673028         42    высшее             0
+1         1   -4024.803754         36   среднее             1
+2         0   -5623.422610         33   Среднее             1
+3         3   -4124.747207         32   среднее             1
+4         0  340266.072047         53   среднее             1
+5         0    -926.185831         27    высшее             0
+6         0   -2879.202052         43    высшее             0
+7         0    -152.779569         50   СРЕДНЕЕ             1
+8         2   -6929.865299         35    ВЫСШЕЕ             0
+9         0   -2188.756445         41   среднее             1
+
+      family\_status  family\_status\_id gender income\_type  debt   total\_income  \textbackslash{}
+0   женат / замужем                 0      F   сотрудник     0  253875.639453
+1   женат / замужем                 0      F   сотрудник     0  112080.014102
+2   женат / замужем                 0      M   сотрудник     0  145885.952297
+3   женат / замужем                 0      M   сотрудник     0  267628.550329
+4  гражданский брак                 1      F   пенсионер     0  158616.077870
+5  гражданский брак                 1      M   компаньон     0  255763.565419
+6   женат / замужем                 0      F   компаньон     0  240525.971920
+7   женат / замужем                 0      M   сотрудник     0  135823.934197
+8  гражданский брак                 1      F   сотрудник     0   95856.832424
+9   женат / замужем                 0      M   сотрудник     0  144425.938277
+
+                      purpose
+0               покупка жилья
+1     приобретение автомобиля
+2               покупка жилья
+3  дополнительное образование
+4             сыграть свадьбу
+5               покупка жилья
+6           операции с жильем
+7                 образование
+8       на проведение свадьбы
+9     покупка жилья для семьи
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} посмотрим последние 10 строчек таблицы}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+       children  days\_employed  dob\_years       education  education\_id  \textbackslash{}
+21515         1    -467.685130         28         среднее             1
+21516         0    -914.391429         42          высшее             0
+21517         0    -404.679034         42          высшее             0
+21518         0  373995.710838         59         СРЕДНЕЕ             1
+21519         1   -2351.431934         37  ученая степень             4
+21520         1   -4529.316663         43         среднее             1
+21521         0  343937.404131         67         среднее             1
+21522         1   -2113.346888         38         среднее             1
+21523         3   -3112.481705         38         среднее             1
+21524         2   -1984.507589         40         среднее             1
+
+          family\_status  family\_status\_id gender income\_type  debt  \textbackslash{}
+21515   женат / замужем                 0      F   сотрудник     1
+21516   женат / замужем                 0      F   компаньон     0
+21517  гражданский брак                 1      F   компаньон     0
+21518   женат / замужем                 0      F   пенсионер     0
+21519         в разводе                 3      M   сотрудник     0
+21520  гражданский брак                 1      F   компаньон     0
+21521   женат / замужем                 0      F   пенсионер     0
+21522  гражданский брак                 1      M   сотрудник     1
+21523   женат / замужем                 0      M   сотрудник     1
+21524   женат / замужем                 0      F   сотрудник     0
+
+        total\_income                            purpose
+21515  109486.327999              заняться образованием
+21516  322807.776603               покупка своего жилья
+21517  178059.553491       на покупку своего автомобиля
+21518  153864.650328               сделка с автомобилем
+21519  115949.039788  покупка коммерческой недвижимости
+21520  224791.862382                  операции с жильем
+21521  155999.806512               сделка с автомобилем
+21522   89672.561153                       недвижимость
+21523  244093.050500       на покупку своего автомобиля
+21524   82047.418899              на покупку автомобиля
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 21525 entries, 0 to 21524
+Data columns (total 12 columns):
+children            21525 non-null int64
+days\_employed       19351 non-null float64
+dob\_years           21525 non-null int64
+education           21525 non-null object
+education\_id        21525 non-null int64
+family\_status       21525 non-null object
+family\_status\_id    21525 non-null int64
+gender              21525 non-null object
+income\_type         21525 non-null object
+debt                21525 non-null int64
+total\_income        19351 non-null float64
+purpose             21525 non-null object
+dtypes: float64(2), int64(5), object(5)
+memory usage: 2.0+ MB
+\end{Verbatim}
+
+    \hypertarget{ux432ux44bux432ux43eux434ux44b}{%
+\subsubsection{Выводы:}\label{ux432ux44bux432ux43eux434ux44b}}
+
+Наблюдаем следующие возможные сложности в дальнейшем анализе:
+
+\begin{itemize}
+\tightlist
+\item
+  отрицательные значения в столбцах children и days\_employed
+\item
+  наличие NAN в столбцах days\_employed и total\_income
+\item
+  прыгающий регистр букв в столбце education
+\item
+  есть дублирующие признаки
+\item
+  непонятна валюта месячного дохода
+\end{itemize}
+
+    Комментарий наставника
+
+Хорошее начало, так же, для большего понимания данных можно было бы
+использовать метод \texttt{describe}
+
+    \hypertarget{ux448ux430ux433-2.-ux43fux440ux435ux434ux43eux431ux440ux430ux431ux43eux442ux43aux430-ux434ux430ux43dux43dux44bux445}{%
+\subsubsection{Шаг 2. Предобработка
+данных}\label{ux448ux430ux433-2.-ux43fux440ux435ux434ux43eux431ux440ux430ux431ux43eux442ux43aux430-ux434ux430ux43dux43dux44bux445}}
+
+    \hypertarget{ux43eux431ux440ux430ux431ux43eux442ux43aux430-ux43fux440ux43eux43fux443ux441ux43aux43eux432}{%
+\subsubsection{Обработка
+пропусков}\label{ux43eux431ux440ux430ux431ux43eux442ux43aux430-ux43fux440ux43eux43fux443ux441ux43aux43eux432}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}посмотрим на суммарное количество пропусков}
+\PY{n}{data}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+children               0
+days\_employed       2174
+dob\_years              0
+education              0
+education\_id           0
+family\_status          0
+family\_status\_id       0
+gender                 0
+income\_type            0
+debt                   0
+total\_income        2174
+purpose                0
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}заменим пропуски в столбце total\PYZus{}income, }
+\PY{c+c1}{\PYZsh{}так как в дальнейшем он понадобится для анализа данных }
+\PY{c+c1}{\PYZsh{}по запрошенным задачам}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{days\PYZus{}employed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{days\PYZus{}employed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}проверяем, остались ли пропуска после замены}
+\PY{n}{data}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+children            0
+days\_employed       0
+dob\_years           0
+education           0
+education\_id        0
+family\_status       0
+family\_status\_id    0
+gender              0
+income\_type         0
+debt                0
+total\_income        0
+purpose             0
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\section{Вывод}\label{ux432ux44bux432ux43eux434}}
+
+\begin{itemize}
+\item
+  какие пропущенные значения обнаружили: Пропущенные значения обнаружены
+  в двух столбцах: days\_employed и total\_income (в 2174 строках из
+  21525 строках пропущены значения).
+\item
+  возможные причины появления пропусков в данных:
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  люди намерено пропустили эти пункты, потому что работают не
+  официально;
+\item
+  еще просто не работали
+\item
+  баг, данные некоректно введены
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  объясните, по какому принципу заполнены пропуски: Был применен метод,
+  который подразумевает заполнение NaN на 0, применять в данном случае
+  метод mean() или mead() было бы некорректным, это могло бы исказить
+  данные, также как и удаление пропусков.
+\end{itemize}
+
+    Далее будем рассматривать в анализе столбец total\_income, так как
+именно он понадобится для решение поставленных клиентом задач.
+
+    Комментарий наставника
+
+Тут лучше не заполнять пропуски просто медианой, средним или нулём,
+требуется более обоснованное заполнение пропусков исходя из имеющихся
+данных
+
+    \hypertarget{ux437ux430ux43cux435ux43dux430-ux442ux438ux43fux430-ux434ux430ux43dux43dux44bux445}{%
+\subsubsection{Замена типа
+данных}\label{ux437ux430ux43cux435ux43dux430-ux442ux438ux43fux430-ux434ux430ux43dux43dux44bux445}}
+
+    В запросе заказчика есть следующие вопросы: 1. Есть ли зависимость между
+наличием детей и возвратом кредита в срок? 2. Есть ли зависимость между
+семейным положением и возвратом кредита в срок? 3. Есть ли зависимость
+между уровнем дохода и возвратом кредита в срок? 4. Как разные цели
+кредита влияют на его возврат в срок?
+
+В связи с этим, далее будем рассматривать и перерабатывать данные только
+в необходимых для анализа столбцах. Если потребуется дополнительная
+информация для анализа из оставшихся столбцах, тогда заменим типы данных
+и там =)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}посмотрим столбец \PYZdq{}children\PYZdq{}, так как есть запрос: }
+\PY{c+c1}{\PYZsh{}влияет ли наличие детей не возврат кредита в срок.}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 1,  0,  3,  2, -1,  4, 20,  5])
+\end{Verbatim}
+\end{tcolorbox}
+        В полученных данных смущают значения -1 и 20. -1 - скорее всего баг и ошибка, а наличие 20 детей предположить можно. Подсчитаем количество строк, где высвечивается значение -1. 
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{[}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{9}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+47
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}\PYZhy{}1 можно попробовать заменить на среднее количество детей,}
+\PY{c+c1}{\PYZsh{}так как не факт, что имелось ввиду количество одного ребенка. }
+\PY{n}{mean\PYZus{}child} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{mean\PYZus{}child}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.5389082462253194
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}переведем в целое число для удобства}
+\PY{n}{mean\PYZus{}child1} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n}{mean\PYZus{}child}\PY{o}{*}\PY{l+m+mi}{1000000}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{type}\PY{p}{(}\PY{n}{mean\PYZus{}child1}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'int'>
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Заменим \PYZhy{}1 на значение mean\PYZus{}child1}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{mean\PYZus{}child1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{[}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Посмотрим сколько строк, где количество детей = 20}
+\PY{n}{data}\PY{p}{[}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{20}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{42}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+76
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{43}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+0        1
+1        1
+2        0
+3        3
+4        0
+        ..
+21466    1
+21467    0
+21468    1
+21469    3
+21470    2
+Name: children, Length: 21471, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    В постановке задачи не стоит вопрос о количестве детей, стоит вопрос
+влияет ли наличие детей на возврат кредита в срок? Соотвтетсвенно, нас
+интересует ответ на вопрос есть дети у клиента или нет. Далее в проекте
+распределим эти данные на категории.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}теперь посмотрим столбец \PYZdq{}family\PYZus{}status\PYZdq{} для дальнейшего анализа }
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{family\PYZus{}status}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+array(['женат / замужем', 'гражданский брак', 'вдовец / вдова',
+       'в разводе', 'Не женат / не замужем'], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}приведем все значения к нижнему регистру}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{family\PYZus{}status}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{family\PYZus{}status}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{family\PYZus{}status}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+array(['женат / замужем', 'гражданский брак', 'вдовец / вдова',
+       'в разводе', 'не женат / не замужем'], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}рассмотрим уровень дохода}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0        253875.639453
+1        112080.014102
+2        145885.952297
+3        267628.550329
+4        158616.077870
+             {\ldots}
+21520    224791.862382
+21521    155999.806512
+21522     89672.561153
+21523    244093.050500
+21524     82047.418899
+Name: total\_income, Length: 21525, dtype: float64
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}приведем данные в более удобный для анализа вид}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\PY{n}{data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{19}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+   children  days\_employed  dob\_years education  education\_id  \textbackslash{}
+0         1   -8437.673028         42    высшее             0
+1         1   -4024.803754         36   среднее             1
+2         0   -5623.422610         33   Среднее             1
+3         3   -4124.747207         32   среднее             1
+4         0  340266.072047         53   среднее             1
+5         0    -926.185831         27    высшее             0
+6         0   -2879.202052         43    высшее             0
+7         0    -152.779569         50   СРЕДНЕЕ             1
+8         2   -6929.865299         35    ВЫСШЕЕ             0
+9         0   -2188.756445         41   среднее             1
+
+      family\_status  family\_status\_id gender income\_type  debt  total\_income  \textbackslash{}
+0   женат / замужем                 0      F   сотрудник     0        253875
+1   женат / замужем                 0      F   сотрудник     0        112080
+2   женат / замужем                 0      M   сотрудник     0        145885
+3   женат / замужем                 0      M   сотрудник     0        267628
+4  гражданский брак                 1      F   пенсионер     0        158616
+5  гражданский брак                 1      M   компаньон     0        255763
+6   женат / замужем                 0      F   компаньон     0        240525
+7   женат / замужем                 0      M   сотрудник     0        135823
+8  гражданский брак                 1      F   сотрудник     0         95856
+9   женат / замужем                 0      M   сотрудник     0        144425
+
+                      purpose
+0               покупка жилья
+1     приобретение автомобиля
+2               покупка жилья
+3  дополнительное образование
+4             сыграть свадьбу
+5               покупка жилья
+6           операции с жильем
+7                 образование
+8       на проведение свадьбы
+9     покупка жилья для семьи
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}посмотрим на следующий стобец для дальнейшего анализа \PYZdq{}purpose\PYZdq{}}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+array(['покупка жилья', 'приобретение автомобиля',
+       'дополнительное образование', 'сыграть свадьбу',
+       'операции с жильем', 'образование', 'на проведение свадьбы',
+       'покупка жилья для семьи', 'покупка недвижимости',
+       'покупка коммерческой недвижимости', 'покупка жилой недвижимости',
+       'строительство собственной недвижимости', 'недвижимость',
+       'строительство недвижимости', 'на покупку подержанного автомобиля',
+       'на покупку своего автомобиля',
+       'операции с коммерческой недвижимостью',
+       'строительство жилой недвижимости', 'жилье',
+       'операции со своей недвижимостью', 'автомобили',
+       'заняться образованием', 'сделка с подержанным автомобилем',
+       'получение образования', 'автомобиль', 'свадьба',
+       'получение дополнительного образования', 'покупка своего жилья',
+       'операции с недвижимостью', 'получение высшего образования',
+       'свой автомобиль', 'сделка с автомобилем',
+       'профильное образование', 'высшее образование',
+       'покупка жилья для сдачи', 'на покупку автомобиля', 'ремонт жилью',
+       'заняться высшим образованием'], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}dept}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{debt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{21}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+0    19784
+1     1741
+Name: debt, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    В блоке ``Замена типов данных'' мы рассмотрели все необходимые для
+дальнейшего анализа поставленных вопросов заказчиком столбцы. Необходимо
+доработать стобец - ``purpose'' (далее будет к нему применен метод
+лемматизации),
+
+    Комментарий наставника
+
+Замена типа данных выполнена верно
+
+    \hypertarget{ux43eux431ux440ux430ux431ux43eux442ux43aux430-ux434ux443ux431ux43bux438ux43aux430ux442ux43eux432}{%
+\subsubsection{Обработка
+дубликатов}\label{ux43eux431ux440ux430ux431ux43eux442ux43aux430-ux434ux443ux431ux43bux438ux43aux430ux442ux43eux432}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}проверим наличие дубликатов}
+\PY{n}{data}\PY{o}{.}\PY{n}{duplicated}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{22}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+54
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Возможо дубли появились при заполнении данных, удалим и проверим заново
+дубли.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{drop\PYZus{}duplicates}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{o}{.}\PY{n}{duplicated}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{25}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+   children  days\_employed  dob\_years education  education\_id  \textbackslash{}
+0         1   -8437.673028         42    высшее             0
+1         1   -4024.803754         36   среднее             1
+2         0   -5623.422610         33   Среднее             1
+3         3   -4124.747207         32   среднее             1
+4         0  340266.072047         53   среднее             1
+5         0    -926.185831         27    высшее             0
+6         0   -2879.202052         43    высшее             0
+7         0    -152.779569         50   СРЕДНЕЕ             1
+8         2   -6929.865299         35    ВЫСШЕЕ             0
+9         0   -2188.756445         41   среднее             1
+
+      family\_status  family\_status\_id gender income\_type  debt  total\_income  \textbackslash{}
+0   женат / замужем                 0      F   сотрудник     0        253875
+1   женат / замужем                 0      F   сотрудник     0        112080
+2   женат / замужем                 0      M   сотрудник     0        145885
+3   женат / замужем                 0      M   сотрудник     0        267628
+4  гражданский брак                 1      F   пенсионер     0        158616
+5  гражданский брак                 1      M   компаньон     0        255763
+6   женат / замужем                 0      F   компаньон     0        240525
+7   женат / замужем                 0      M   сотрудник     0        135823
+8  гражданский брак                 1      F   сотрудник     0         95856
+9   женат / замужем                 0      M   сотрудник     0        144425
+
+                      purpose
+0               покупка жилья
+1     приобретение автомобиля
+2               покупка жилья
+3  дополнительное образование
+4             сыграть свадьбу
+5               покупка жилья
+6           операции с жильем
+7                 образование
+8       на проведение свадьбы
+9     покупка жилья для семьи
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\subsubsection{Вывод}\label{ux432ux44bux432ux43eux434}}
+
+Проверили на наличие дубликатов, которые, возможно, возникли из-за
+неправильного заполнения данных. Дубликаты удалили и заново проверили их
+на наличие. Были применены методы duplicated() и drop\_duplicates().
+
+    Комментарий наставника
+
+Дубликаты найдены и обработаны верно,отлично
+
+    \hypertarget{ux43bux435ux43cux43cux430ux442ux438ux437ux430ux446ux438ux44f}{%
+\subsubsection{Лемматизация}\label{ux43bux435ux43cux43cux430ux442ux438ux437ux430ux446ux438ux44f}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Для начала выведем еще раз список значений в столбце \PYZdq{}purpose\PYZdq{}}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+['покупка жилья',
+ 'приобретение автомобиля',
+ 'дополнительное образование',
+ 'сыграть свадьбу',
+ 'операции с жильем',
+ 'образование',
+ 'на проведение свадьбы',
+ 'покупка жилья для семьи',
+ 'покупка недвижимости',
+ 'покупка коммерческой недвижимости',
+ 'покупка жилой недвижимости',
+ 'строительство собственной недвижимости',
+ 'недвижимость',
+ 'строительство недвижимости',
+ 'на покупку подержанного автомобиля',
+ 'на покупку своего автомобиля',
+ 'операции с коммерческой недвижимостью',
+ 'строительство жилой недвижимости',
+ 'жилье',
+ 'операции со своей недвижимостью',
+ 'автомобили',
+ 'заняться образованием',
+ 'сделка с подержанным автомобилем',
+ 'получение образования',
+ 'автомобиль',
+ 'свадьба',
+ 'получение дополнительного образования',
+ 'покупка своего жилья',
+ 'операции с недвижимостью',
+ 'получение высшего образования',
+ 'свой автомобиль',
+ 'сделка с автомобилем',
+ 'профильное образование',
+ 'высшее образование',
+ 'покупка жилья для сдачи',
+ 'на покупку автомобиля',
+ 'ремонт жилью',
+ 'заняться высшим образованием']
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Вручную выделим основные цели взятия кредита:}
+   \PY{c+c1}{\PYZsh{} \PYZhy{} покупка или ремонт автомобиля}
+   \PY{c+c1}{\PYZsh{} \PYZhy{} жилье или недвижимость (как коммерческая так и для собсвенного пользования)}
+   \PY{c+c1}{\PYZsh{} \PYZhy{} получение дополнительного образования}
+   \PY{c+c1}{\PYZsh{} \PYZhy{} свадьба}
+\PY{c+c1}{\PYZsh{}Получается в данной таблице представлено 4 цели на взятие кредита: автомобиль, жилье/недвижимость, образование и свадьба. }
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{pymystem3} \PY{k+kn}{import} \PY{n}{Mystem}
+\PY{k+kn}{from} \PY{n+nn}{collections} \PY{k+kn}{import} \PY{n}{Counter}
+\PY{n}{m} \PY{o}{=} \PY{n}{Mystem}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{lemmatize\PYZus{}it}\PY{p}{(}\PY{n}{row}\PY{p}{)}\PY{p}{:}
+        \PY{n}{lemmas} \PY{o}{=} \PY{n}{m}\PY{o}{.}\PY{n}{lemmatize}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+        \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{автомобиль}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{lemmas}\PY{p}{:}
+            \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{автокредит}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{свадьба}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{lemmas}\PY{p}{:}
+            \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{кредит на свадьбу}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{жилье}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{lemmas} \PY{o+ow}{or} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{недвижимость}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{lemmas}\PY{p}{:}
+            \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ипотека}\PY{l+s+s1}{\PYZsq{}}
+        \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{образование}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{lemmas}\PY{p}{:}
+            \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{кредит на образование}\PY{l+s+s1}{\PYZsq{}}
+        
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose\PYZus{}group}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{lemmatize\PYZus{}it}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}почему то RUN не срабатывает для принта: print(data[\PYZsq{}purpose\PYZus{}group\PYZsq{}]), }
+\PY{c+c1}{\PYZsh{}поэтому пришлось выводить таким образом =)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{lemmatize\PYZus{}it}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0                      ипотека
+1                   автокредит
+2                      ипотека
+3        кредит на образование
+4            кредит на свадьбу
+                 {\ldots}
+21466                  ипотека
+21467               автокредит
+21468                  ипотека
+21469               автокредит
+21470               автокредит
+Name: purpose, Length: 21471, dtype: object
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose\PYZus{}group}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0                      ипотека
+1                   автокредит
+2                      ипотека
+3        кредит на образование
+4            кредит на свадьбу
+                 {\ldots}
+21466                  ипотека
+21467               автокредит
+21468                  ипотека
+21469               автокредит
+21470               автокредит
+Name: purpose\_group, Length: 21471, dtype: object
+\end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{purpose\PYZus{}data} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose\PYZus{}group}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{purpose\PYZus{}data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+                      purpose          purpose\_group
+0               покупка жилья                ипотека
+1     приобретение автомобиля             автокредит
+2               покупка жилья                ипотека
+3  дополнительное образование  кредит на образование
+4             сыграть свадьбу      кредит на свадьбу
+5               покупка жилья                ипотека
+6           операции с жильем                ипотека
+7                 образование  кредит на образование
+8       на проведение свадьбы      кредит на свадьбу
+9     покупка жилья для семьи                ипотека
+\end{Verbatim}
+
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\subsubsection{Вывод}\label{ux432ux44bux432ux43eux434}}
+
+    Выделили основные леммы, а именно цели для преоретение кредита: -
+ипотека - кредит на образование - кредит на свадьбу - автокредит
+
+    Комментарий наставника
+
+Лемматизация проведена верно
+
+    \hypertarget{ux43aux430ux442ux435ux433ux43eux440ux438ux437ux430ux446ux438ux44f-ux434ux430ux43dux43dux44bux445}{%
+\subsubsection{Категоризация
+данных}\label{ux43aux430ux442ux435ux433ux43eux440ux438ux437ux430ux446ux438ux44f-ux434ux430ux43dux43dux44bux445}}
+
+    Из необходимых для дальнейшего анализа столбцов, для категоризации
+данных можно рассмотреть два: children и total\_income.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Категоризуем столбец \PYZdq{}total\PYZus{}income\PYZdq{}, }
+\PY{c+c1}{\PYZsh{}для начала посмотрим на данные этого столбца}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{32}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+0         2120
+204827       3
+163060       3
+144533       3
+121931       3
+          {\ldots}
+109583       1
+101387       1
+138249       1
+280240       1
+229304       1
+Name: total\_income, Length: 18607, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Из этого списка сложно сделать анализ, }
+\PY{c+c1}{\PYZsh{}поэтому необходимо разбить доход на категории по статусу:}
+\PY{k}{def} \PY{n+nf}{income\PYZus{}category}\PY{p}{(}\PY{n}{total\PYZus{}income}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{total\PYZus{}income} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{45000.0}\PY{p}{:}
+        \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{низкий уровень дохода}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{if} \PY{n}{total\PYZus{}income} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{90000.0}\PY{p}{:}
+        \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{средний уровень дохода}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{if} \PY{n}{total\PYZus{}income} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mf}{180000.0}\PY{p}{:} 
+        \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{высокий уровень дохода}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{очень высокий уровень дохода}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{income\PYZus{}category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{income\PYZus{}category}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+   children  days\_employed  dob\_years education  education\_id  \textbackslash{}
+0         1   -8437.673028         42    высшее             0
+1         1   -4024.803754         36   среднее             1
+2         0   -5623.422610         33   Среднее             1
+3         3   -4124.747207         32   среднее             1
+4         0  340266.072047         53   среднее             1
+5         0    -926.185831         27    высшее             0
+6         0   -2879.202052         43    высшее             0
+7         0    -152.779569         50   СРЕДНЕЕ             1
+8         2   -6929.865299         35    ВЫСШЕЕ             0
+9         0   -2188.756445         41   среднее             1
+
+      family\_status  family\_status\_id gender income\_type  debt  total\_income  \textbackslash{}
+0   женат / замужем                 0      F   сотрудник     0        253875
+1   женат / замужем                 0      F   сотрудник     0        112080
+2   женат / замужем                 0      M   сотрудник     0        145885
+3   женат / замужем                 0      M   сотрудник     0        267628
+4  гражданский брак                 1      F   пенсионер     0        158616
+5  гражданский брак                 1      M   компаньон     0        255763
+6   женат / замужем                 0      F   компаньон     0        240525
+7   женат / замужем                 0      M   сотрудник     0        135823
+8  гражданский брак                 1      F   сотрудник     0         95856
+9   женат / замужем                 0      M   сотрудник     0        144425
+
+                      purpose          purpose\_group  \textbackslash{}
+0               покупка жилья                ипотека
+1     приобретение автомобиля             автокредит
+2               покупка жилья                ипотека
+3  дополнительное образование  кредит на образование
+4             сыграть свадьбу      кредит на свадьбу
+5               покупка жилья                ипотека
+6           операции с жильем                ипотека
+7                 образование  кредит на образование
+8       на проведение свадьбы      кредит на свадьбу
+9     покупка жилья для семьи                ипотека
+
+                income\_category
+0  очень высокий уровень дохода
+1        высокий уровень дохода
+2        высокий уровень дохода
+3  очень высокий уровень дохода
+4        высокий уровень дохода
+5  очень высокий уровень дохода
+6  очень высокий уровень дохода
+7        высокий уровень дохода
+8        высокий уровень дохода
+9        высокий уровень дохода
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}теперь можно посмотреть сколько людей в каждой категории: 21471 из 21525}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{income\PYZus{}category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{35}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+высокий уровень дохода          9581
+очень высокий уровень дохода    6422
+средний уровень дохода          3131
+низкий уровень дохода           2337
+Name: income\_category, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Теперь посмотрим стобец \PYZdq{}children\PYZdq{}}
+\PY{k}{def} \PY{n+nf}{children\PYZus{}category}\PY{p}{(}\PY{n}{children}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{children} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{нет детей}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{if} \PY{n}{children} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{k}{return} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{есть дети}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children\PYZus{}category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{children\PYZus{}category}\PY{p}{)}
+\PY{n}{data}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{36}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+   children  days\_employed  dob\_years education  education\_id  \textbackslash{}
+0         1   -8437.673028         42    высшее             0
+1         1   -4024.803754         36   среднее             1
+2         0   -5623.422610         33   Среднее             1
+3         3   -4124.747207         32   среднее             1
+4         0  340266.072047         53   среднее             1
+5         0    -926.185831         27    высшее             0
+6         0   -2879.202052         43    высшее             0
+7         0    -152.779569         50   СРЕДНЕЕ             1
+8         2   -6929.865299         35    ВЫСШЕЕ             0
+9         0   -2188.756445         41   среднее             1
+
+      family\_status  family\_status\_id gender income\_type  debt  total\_income  \textbackslash{}
+0   женат / замужем                 0      F   сотрудник     0        253875
+1   женат / замужем                 0      F   сотрудник     0        112080
+2   женат / замужем                 0      M   сотрудник     0        145885
+3   женат / замужем                 0      M   сотрудник     0        267628
+4  гражданский брак                 1      F   пенсионер     0        158616
+5  гражданский брак                 1      M   компаньон     0        255763
+6   женат / замужем                 0      F   компаньон     0        240525
+7   женат / замужем                 0      M   сотрудник     0        135823
+8  гражданский брак                 1      F   сотрудник     0         95856
+9   женат / замужем                 0      M   сотрудник     0        144425
+
+                      purpose          purpose\_group  \textbackslash{}
+0               покупка жилья                ипотека
+1     приобретение автомобиля             автокредит
+2               покупка жилья                ипотека
+3  дополнительное образование  кредит на образование
+4             сыграть свадьбу      кредит на свадьбу
+5               покупка жилья                ипотека
+6           операции с жильем                ипотека
+7                 образование  кредит на образование
+8       на проведение свадьбы      кредит на свадьбу
+9     покупка жилья для семьи                ипотека
+
+                income\_category children\_category
+0  очень высокий уровень дохода         есть дети
+1        высокий уровень дохода         есть дети
+2        высокий уровень дохода         нет детей
+3  очень высокий уровень дохода         есть дети
+4        высокий уровень дохода         нет детей
+5  очень высокий уровень дохода         нет детей
+6  очень высокий уровень дохода         нет детей
+7        высокий уровень дохода         нет детей
+8        высокий уровень дохода         есть дети
+9        высокий уровень дохода         нет детей
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}теперь можно посмотреть сколько людей в каждой категории: 21471 из 21525}
+\PY{n}{data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children\PYZus{}category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, boxrule=.5pt, size=fbox, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{37}{\hspace{3.5pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+нет детей    14107
+есть дети     7364
+Name: children\_category, dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\subsubsection{Вывод}\label{ux432ux44bux432ux43eux434}}
+
+    Разбили на категории два столбца, которые необходимы нам для дальнейшего
+анализа. Применили методы value\_counts(), apply(), def-if-retutn.
+
+    Общий вывод по ПЕРЕРАБОТКЕ ДАННЫХ: 1. обработали пропуска 2. удалили
+дубликаты 3. выделили леммы в столбце ``purpose'' 4. категоризировали
+данные
+
+    Комментарий наставника
+
+Категоризация проведена верно
+
+    \hypertarget{ux448ux430ux433-3.-ux43eux442ux432ux435ux442ux44cux442ux435-ux43dux430-ux432ux43eux43fux440ux43eux441ux44b}{%
+\subsubsection{Шаг 3. Ответьте на
+вопросы}\label{ux448ux430ux433-3.-ux43eux442ux432ux435ux442ux44cux442ux435-ux43dux430-ux432ux43eux43fux440ux43eux441ux44b}}
+
+    \begin{itemize}
+\tightlist
+\item
+  Есть ли зависимость между наличием детей и возвратом кредита в срок?
+  Гипотеза: зависимость между наличием детей и возвратом кредита в срок
+  есть, люди с детьми отдают кредит с большей вероятностью во время.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Для ответа на вопрос нам потребуется рассмотреть два столбца: children\PYZus{}category и debt. }
+\PY{n}{children\PYZus{}pivot} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pivot\PYZus{}table}\PY{p}{(}\PY{n}{index} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{children\PYZus{}category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{columns} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{debt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{values} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose\PYZus{}group}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{aggfunc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{children\PYZus{}pivot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ratio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{children\PYZus{}pivot}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{/} \PY{n}{children\PYZus{}pivot}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{100}
+\PY{n}{children\PYZus{}pivot}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{children\PYZus{}pivot}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+debt                   0     1      ratio
+children\_category
+есть дети           6686   678  10.140592
+нет детей          13044  1063   8.149341
+\end{Verbatim}
+
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\subsubsection{Вывод}\label{ux432ux44bux432ux43eux434}}
+
+Мы видим, что люди, у которых нет детей, отдают кредиты хуже, нежели,
+чем люди с детьми (неважно какое количество детей). Возможно, потому что
+люди с детьми более обязательные с повышенным чувством ответственности.
+Гипотеза подтвердилась.
+
+    \begin{itemize}
+\tightlist
+\item
+  Есть ли зависимость между семейным положением и возвратом кредита в
+  срок? Гипотеза: семейные люди с большей вероятностью отдадут кредит в
+  срок, нежели люди без семьи.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}рассмотрим два столбца: family\PYZus{}status и debt}
+\PY{n}{family\PYZus{}status\PYZus{}pivot} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pivot\PYZus{}table}\PY{p}{(}\PY{n}{index} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{family\PYZus{}status}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{columns} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{debt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{values} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose\PYZus{}group}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{aggfunc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{family\PYZus{}status\PYZus{}pivot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ratio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{family\PYZus{}status\PYZus{}pivot}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{/} \PY{n}{family\PYZus{}status\PYZus{}pivot}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{100}
+\PY{n}{family\PYZus{}status\PYZus{}pivot}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{family\PYZus{}status\PYZus{}pivot}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+debt                       0    1      ratio
+family\_status
+в разводе               1110   85   7.657658
+вдовец / вдова           896   63   7.031250
+гражданский брак        3775  388  10.278146
+женат / замужем        11413  931   8.157364
+не женат / не замужем   2536  274  10.804416
+\end{Verbatim}
+
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\subsubsection{Вывод}\label{ux432ux44bux432ux43eux434}}
+
+    Мы наблюдаем, что самые низкие показатели по возврату кредита в срок у
+тех, кто в разводе и вдов/вдовцов. Возможно, потому что отсуствует
+кормилец в семье, меньше общий доход (так как, когда два человека в
+семье зарабатывают, вероятность возврата кредита в срок гораздо выше).
+Гипотеза подтвердилась.
+
+    \begin{itemize}
+\tightlist
+\item
+  Есть ли зависимость между уровнем дохода и возвратом кредита в срок?
+  Гипотеза: люди с высоким уровнем дохода с большей вероятностью будут
+  возвращать кредит в срок, нежели люди с низким уровнем дохода.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{income\PYZus{}category\PYZus{}pivot} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pivot\PYZus{}table}\PY{p}{(}\PY{n}{index} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{income\PYZus{}category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{columns} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{debt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{values} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose\PYZus{}group}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{aggfunc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{income\PYZus{}category\PYZus{}pivot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ratio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{income\PYZus{}category\PYZus{}pivot}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{/} \PY{n}{income\PYZus{}category\PYZus{}pivot}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{100}
+\PY{n}{income\PYZus{}category\PYZus{}pivot}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{income\PYZus{}category\PYZus{}pivot}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+debt                             0    1     ratio
+income\_category
+высокий уровень дохода        8750  831  9.497143
+низкий уровень дохода         2153  184  8.546215
+очень высокий уровень дохода  5944  478  8.041723
+средний уровень дохода        2883  248  8.602151
+\end{Verbatim}
+
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\subsubsection{Вывод}\label{ux432ux44bux432ux43eux434}}
+
+    Есть несущественная разница влияния уровня дохода на возврат кредита в
+срок. Стоит отметить, что хуже всего на возврат кредита в срок
+сказывается очень высокий уровень дохода, на втором месте идет - низкий
+уровень дохода. Возможно, поэтому уровень дохода очень высокий, потому
+что не возвращают кредит в срок =). Почему люди с низким уровнем дохода
+возвращают кредит в срок хуже, в целом объяснимо. Гипотеза подтвердилась
+наполовину.
+
+    \begin{itemize}
+\tightlist
+\item
+  Как разные цели кредита влияют на его возврат в срок? Гипотеза: цели
+  влияют на кредит возврата в срок.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{purpose\PYZus{}group\PYZus{}pivot} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pivot\PYZus{}table}\PY{p}{(}\PY{n}{index} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purpose\PYZus{}group}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{columns} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{debt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{values} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{total\PYZus{}income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{aggfunc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{purpose\PYZus{}group\PYZus{}pivot}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ratio}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{purpose\PYZus{}group\PYZus{}pivot}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{/} \PY{n}{purpose\PYZus{}group\PYZus{}pivot}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{100}
+\PY{n}{purpose\PYZus{}group\PYZus{}pivot}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{purpose\PYZus{}group\PYZus{}pivot}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+debt                       0    1      ratio
+purpose\_group
+автокредит              3905  403  10.320102
+ипотека                10032  782   7.795056
+кредит на образование   3644  370  10.153677
+кредит на свадьбу       2149  186   8.655188
+\end{Verbatim}
+
+    \hypertarget{ux432ux44bux432ux43eux434}{%
+\subsubsection{Вывод}\label{ux432ux44bux432ux43eux434}}
+
+    Наименьшие показатели возврата кредита в срок мы видим у следующих
+целей: ипотека и кредит на свадьбу. Кредит на свадьбу - можно
+охарактеризовать как потребительский, скорее всего его к нему относятся
+не совсем серьезно, да и на свадьбу брать кредит - не очень серьезная
+история. Ипотека - достаточно рисковая сделка, большие вложения,
+которыми, скорее всего, не всегда располагают люди, берущие такого рода
+кредит.
+
+    Комментарий наставника
+
+Все выводы верны, код написан правильно, радует, что используешь сводные
+таблицы)
+
+    \hypertarget{ux448ux430ux433-4.-ux43eux431ux449ux438ux439-ux432ux44bux432ux43eux434}{%
+\subsubsection{Шаг 4. Общий
+вывод}\label{ux448ux430ux433-4.-ux43eux431ux449ux438ux439-ux432ux44bux432ux43eux434}}
+
+    Результаты исследования показали, что мы наблюдаем зависимость между
+семейным положением, наличием детей, уровнем дохода и целями на кредит
+на возврат кредита в срок. - Наиболее повышенны риски по невозврату
+кредитов наблюдаются у вдовцов/вдов и у разведенных, скорее всего
+потому, что люди оказались в непростой ситуации, отсутсвие кормильца и
+т.д. - Также следует обратить внимание на цели кредита, а именно кредит
+на свадьбу и ипотеку. Ипотека - очень крупная сделка с банком с больщим
+количествои рисков, а кредит на свадьбу - не очень ликвидный кредит. -
+Наличие детей влияет не кардинально на возврат кредита в срок, это не
+тот пункт на котором стоит заострять внимание. - Уровень дохода также
+влияет на возврат кредита в срок.
+
+    Комментарий наставника
+
+Хороший вывод, как совет на будущее - можешь в выводе писать
+рекомендации по использованию данного анализа
+
+    \hypertarget{ux447ux435ux43a-ux43bux438ux441ux442-ux433ux43eux442ux43eux432ux43dux43eux441ux442ux438-ux43fux440ux43eux435ux43aux442ux430}{%
+\subsubsection{Чек-лист готовности
+проекта}\label{ux447ux435ux43a-ux43bux438ux441ux442-ux433ux43eux442ux43eux432ux43dux43eux441ux442ux438-ux43fux440ux43eux435ux43aux442ux430}}
+
+Поставьте `x' в выполненных пунктах. Далее нажмите Shift+Enter.
+
+    \begin{itemize}
+\tightlist
+\item[$\boxtimes$]
+  открыт файл;
+\item[$\boxtimes$]
+  файл изучен;
+\item[$\boxtimes$]
+  определены пропущенные значения;
+\item[$\boxtimes$]
+  заполнены пропущенные значения;
+\item[$\boxtimes$]
+  есть пояснение, какие пропущенные значения обнаружены;
+\item[$\boxtimes$]
+  описаны возможные причины появления пропусков в данных;
+\item[$\boxtimes$]
+  объяснено, по какому принципу заполнены пропуски;
+\item[$\boxtimes$]
+  заменен вещественный тип данных на целочисленный;
+\item[$\boxtimes$]
+  есть пояснение, какой метод используется для изменения типа данных и
+  почему;
+\item[$\boxtimes$]
+  удалены дубликаты;
+\item[$\boxtimes$]
+  есть пояснение, какой метод используется для поиска и удаления
+  дубликатов;
+\item[$\boxtimes$]
+  описаны возможные причины появления дубликатов в данных;
+\item[$\boxtimes$]
+  выделены леммы в значениях столбца с целями получения кредита;
+\item[$\boxtimes$]
+  описан процесс лемматизации;
+\item[$\boxtimes$]
+  данные категоризированы;
+\item[$\boxtimes$]
+  есть объяснение принципа категоризации данных;
+\item[$\boxtimes$]
+  есть ответ на вопрос: ``Есть ли зависимость между наличием детей и
+  возвратом кредита в срок?'';
+\item[$\boxtimes$]
+  есть ответ на вопрос: ``Есть ли зависимость между семейным положением
+  и возвратом кредита в срок?'';
+\item[$\boxtimes$]
+  есть ответ на вопрос: ``Есть ли зависимость между уровнем дохода и
+  возвратом кредита в срок?'';
+\item[$\boxtimes$]
+  есть ответ на вопрос: ``Как разные цели кредита влияют на его возврат
+  в срок?'';
+\item[$\boxtimes$]
+  в каждом этапе есть выводы;
+\item[$\boxtimes$]
+  есть общий вывод.
+\end{itemize}
+
+    Комментарий наставника
+
+\hypertarget{ux43aux43eux434}{%
+\paragraph{Код}\label{ux43aux43eux434}}
+
+Всё отлично. Из того, что очень порадовало - соблюдена структура
+проекта, шаги из задания обозначены и выполнены последовательно, код
+написан аккуратно, используются комментарии к коду, быстро можно понять,
+какие операции выполняют сложные конструкции. В качестве совета
+предлагаю глубже изучить и начать чаще применять конструкцию try-except
+в решении задачи --- это улучшит отказоустойчивость кода и обезопасит
+код от поломок в будущем, а так же изучить средства для построения
+изображений в Python для более глубокого понимания данных. \#\#\#\#
+Выводы
+
+У тебя отлично получается анализировать сложные данные, выдвигать
+корректные гипотезы и проверять свои выводы на возможность соответствия
+реальности. Видно глубокое понимание сути проведённого анализа. Было
+очень интересно проверять твой проект и следить за твоей мыслью, так
+держать!)
+
+    Комментарий наставника
+
+Работа принята!) Очень рад, что у тебя всё получилось и надеюсь тебе
+понравится весь курс, будь усердна и у тебя всё получится! Удачи в
+будущих проектах)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\hspace{4pt}}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
